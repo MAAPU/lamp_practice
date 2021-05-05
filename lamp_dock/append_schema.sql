@@ -6,9 +6,9 @@ CREATE TABLE'order_history'(
 )
 
 CREATE TABLE'order_details'(
-    `item_id` int(11) NOT NULL,
+    `item_id` int(11) INT AUTO_INCREMENT NOT NULL,
     `name` varchar(100) NOT NULL,
     `price` int(11) NOT NULL,
-    `amount` int(11) NOT NULL,
+    `amount` int(11) DEFAULT 0,
     primary key(item_id),
 )
