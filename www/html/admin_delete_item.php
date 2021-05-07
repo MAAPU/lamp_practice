@@ -19,6 +19,7 @@ if(is_admin($user) === false){
 }
 
 $item_id = get_post('item_id');
+$token=get_post('token');
 
 if(is_valid_csrf_token($token)){
 if(destroy_item($db, $item_id) === true){

@@ -23,7 +23,7 @@ if(purchase_carts($db, $carts) === false){
   redirect_to(CART_URL);
 } 
 } else {
-  set_error('不正な操作が行われました');
+  redirect_to(CART_URL);
 }
 
 $total_price = sum_carts($carts);
