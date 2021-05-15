@@ -26,7 +26,28 @@ function get_user_carts($db, $user_id){
   return fetch_all_query($db, $sql, [$user_id]);
 }
 
-function get_user_cart($db, $user_id, $item_id){
+function get_item_carts($db, $user_id){
+  $sql="
+    SELECT
+      order_history.order_id,
+      order_history.user_id,
+      order_history.create_datetime,
+      order_details.item_id,
+      order_details.praice,
+      order_details.amount
+    FROM
+      order_details
+    JOIN
+      order_history
+    ON
+      order_details.order_id = order_history.order_id
+    WHERE
+      order_hstory.order_id = ?
+    ";
+  return fetch_all_query($db, $sql,[$user_id]);
+}
+
+function get_user_cart($db, $user_id, $item_id,){
   $sql = "
     SELECT
       items.item_id,
@@ -114,8 +135,54 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+
+  //  foreach($items as $item){
+  //    if(update_item_detail($item) === true){
+  //       return false;
+  //    } 
+  //  }
+ 
+  insert_order_history($db, $carts[0]['user_id']);
+
+  get_order_details($db, $carts[0]['item_id']);
+
   
   delete_user_carts($db, $carts[0]['user_id']);
+}
+function insert_order_history($db, $user_id){
+  $sql = "
+    INSERT INTO
+      order_history(
+        order_id,
+        user_id,
+        create_datetime
+      )
+    VALUES(?, ?, now())
+  ";
+  $sql = "
+    SELECT*
+      from 
+        order_history 
+      where
+        order_id = lastinsertID() 
+  ";
+
+      execute_query($db, $sql, [$user_id]);
+}
+
+function get_order_details($db, $item_id){
+  $sql = "
+    INSERT INTO
+      order_details(
+        item_id,
+        order_id,
+        price,
+        amount
+      )
+    VALUES(?, ?, ?)
+  ";
+
+      execute_query($db, $sql, [$item_id]);
 }
 
 function delete_user_carts($db, $user_id){
