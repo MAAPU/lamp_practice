@@ -13,7 +13,7 @@
           <a class="nav-link" href="<?php print(LOGOUT_URL);?>">ログアウト</a>
         </li>
         <li class="nav-item">
-          <a class="navi-link" href="<?php print(HISTORY_URL);?>">購入履歴</a>
+          <a class="nav-link" href="<?php print(HISTORY_URL);?>">購入履歴</a>
         </li>
         <?php if(is_admin($user)){ ?>
           <li class="nav-item">
