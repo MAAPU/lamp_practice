@@ -13,8 +13,11 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
-$token=get_csrf_token();
-$total_price = sum_carts($carts);
-$carts = get_user_carts($db, $user['user_id']);
 
+if(is_admin($user) === true){
+    $histories=get_histories($db);
+}else{
+    $histories=get_user_histories($db,$user['user_id']);
+
+}
 include_once VIEW_PATH . 'history_view.php';

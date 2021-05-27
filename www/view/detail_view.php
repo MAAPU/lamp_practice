@@ -9,34 +9,43 @@
     <h1>購入明細</h1>
     <div class="container">
         <?php include VIEW_PATH . 'templates/messages.php';?>
-        
-        <?php foreach($carts as $cart){?>
+
+
             <tr>
                 <th>注文番号</th>
                 <th>購入日時</th>
                 <th>合計金額</th>
             </tr>
+            </thead>
+            <tbody>
+            <?php foreach($histories as $history){?>
             <tr>
-                <td><?php print(h($cart['order_id']));?></td>
-                <td><?php print(h($cart['create_datetime']));?></td>
-                <td><?php print number_format($total_price); ?>円</td>
+                <td><?php print(h($history['order_id']));?></td>
+                <td><?php print(h($history['create_datetime']));?></td>
+                <td><?php print(number_format(h($history['total'])));?>円</td>
                 <td>
             </tr>
-            <table border="1">
+            <?php } ?>
+
+            <table class="table table-bordered">
+            <thead class="thead-light"> 
+                      
                 <tr>
                     <th>商品名</th>
                     <th>商品価格</th>
                     <th>購入数</th>
                     <th>小計</th>
                 </tr> 
-                <tr>
-                    <td><?php print(h($cart['name']));?></td>
-                    <td><?php print(number_format(h($cart['price']))); ?>円</td>
-                    <td><?php print(h($cart['amount'])); ?>個</td>
-                    <td><?php print(h(number_format($cart['price'] * $cart['amount']))); ?>円</td>
-                </tr>
+                <?php foreach($details as $detail){?>
+
+                    <tr>
+                        <td><?php print(h($detail['name']));?></td>
+                        <td><?php print(number_format(h($detail['price']))); ?>円</td>
+                        <td><?php print(h($detail['amount'])); ?>個</td>
+                        <td><?php print(h(number_format($detail['subtotal']))); ?>円</td>
+                    </tr>
             </table>
-        <?php } ?>
+            <?php } ?>
     </div>
 </body>
 </html>

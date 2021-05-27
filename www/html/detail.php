@@ -10,11 +10,16 @@ session_start();
 if(is_logined() === false){
     redirect_to(LOGIN_URL);
 }
+$order_id = get_order($db);
 
 $db = get_db_connect();
 $user = get_login_user($db);
-$token=get_csrf_token();
-$total_price = sum_carts($carts);
-$carts = get_user_carts($db, $user['user_id']);
+if(is_admin($user) === true){
+    $history= get_history($db,$user['order_id']);
+    $details =get_details($db,$user['order_id']);
+}else{
+    $history=get_user_history($db,$user['order_id'],$user['user_id']);
+    $details=get_user_details($db,$user['order_id'],$user['user_id']);
+}
 
 include_once VIEW_PATH . 'detail_view.php';

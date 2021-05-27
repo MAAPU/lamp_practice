@@ -3,7 +3,8 @@ CREATE TABLE`order_history`(
      `user_id` int(11) not null,
      `create_datetime` datetime not null,
     primary key(order_id)   
-)
+);
+
 
 CREATE TABLE`order_details`(
     `item_id` int(11)  NOT NULL,
