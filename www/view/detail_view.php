@@ -9,27 +9,29 @@
     <h1>購入明細</h1>
     <div class="container">
         <?php include VIEW_PATH . 'templates/messages.php';?>
-
-
-            <tr>
-                <th>注文番号</th>
-                <th>購入日時</th>
-                <th>合計金額</th>
-            </tr>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>注文番号</th>
+                    <th>購入日時</th>
+                    <th>合計金額</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach($histories as $history){?>
-            <tr>
-                <td><?php print(h($history['order_id']));?></td>
-                <td><?php print(h($history['create_datetime']));?></td>
-                <td><?php print(number_format(h($history['total'])));?>円</td>
-                <td>
-            </tr>
-            <?php } ?>
+                <?php foreach($history as $story){?>
+                <tr>
+                    <td><?php print(h($story['order_id']));?></td>
+                    <td><?php print(h($story['create_datetime']));?></td>
+                    <td><?php print(number_format(h($story['total'])));?>円</td>
+                    <td>
+                </tr>
+        
+                <?php } ?>
+        </table>
+        <table class="table table-bordered">
+            <thead class="thead-light">
 
-            <table class="table table-bordered">
-            <thead class="thead-light"> 
-                      
                 <tr>
                     <th>商品名</th>
                     <th>商品価格</th>
@@ -44,8 +46,11 @@
                         <td><?php print(h($detail['amount'])); ?>個</td>
                         <td><?php print(h(number_format($detail['subtotal']))); ?>円</td>
                     </tr>
-            </table>
-            <?php } ?>
+            
+                <?php } ?>
+            </tbody>
+            
+        </table>
     </div>
 </body>
 </html>

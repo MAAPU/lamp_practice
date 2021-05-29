@@ -17,13 +17,6 @@ function get_get($name){
   return '';
 }
 
-function get_order($order_id){
-  if(isset($_GET[$order_id]) === true){
-    return $_GET[$order_id];
-  };
-  return '';
-}
-
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];

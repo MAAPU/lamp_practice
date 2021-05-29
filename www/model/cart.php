@@ -77,9 +77,8 @@ function get_history($db, $order_id) {
     ON
       order_details.order_id = order_history.order_id
     WHERE
-      order_id = ?
+      order_history.order_id = ?
       GROUP BY order_history.order_id
-      order by create_datetime desc
     ";
   return fetch_all_query($db, $sql, [$order_id]);
 }
@@ -97,11 +96,10 @@ function get_user_history($db,$order_id,$user_id){
     ON
       order_details.order_id = order_history.order_id
     WHERE
-      order_id =?
+      order_history.order_id =?
     AND
       user_id = ?
       GROUP BY order_history.order_id
-      order by create_datetime desc
     ";
 
   return fetch_all_query($db, $sql, [$order_id,$user_id]);
@@ -111,9 +109,9 @@ function get_details($db,$order_id){
   $sql = "
     SELECT
       name,
-      price,
+      order_details.price,
       amount,
-      SUM(price * amount) AS subtotal
+      (price * amount) AS subtotal
     FROM
       order_details
     JOIN
@@ -121,7 +119,7 @@ function get_details($db,$order_id){
     ON
       order_details.item_id = items.item_id
     WHERE
-      order_id = ?
+      order_details.order_id = ?
     ";
 
     return fetch_all_query($db, $sql, [$order_id]);
@@ -132,19 +130,23 @@ function get_user_details($db,$order_id,$user_id){
   $sql = "
     SELECT
       name,
-      price,
+      order_details.price,
       amount,
-      SUM(price * amount) AS subtotal
+      (price * amount) AS subtotal
     FROM
       order_details
     JOIN
       items
     ON
       order_details.item_id = items.item_id
+    JOIN
+      order_history
+    ON
+      order_details.user_id = order_history.user_id
     WHERE
-      order_id = ?
+      order_details.order_id = ?
     AND
-        user_id = ?
+      user_id = ?
     ";
 
     return fetch_all_query($db, $sql, [$order_id,$user_id]);
@@ -310,6 +312,14 @@ function sum_carts($carts) {
     $total_price += $cart['price'] * $cart['amount'];
   }
   return $total_price;
+}
+
+function sub_carts($history) {
+  
+  foreach($history as $his) {
+    $subtotal = $his['price'] * $his['amount'];
+  }
+  return $subtotal;
 }
 
 function validate_cart_purchase($carts) {

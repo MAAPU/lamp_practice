@@ -27,7 +27,7 @@
                     <td>
                         <form action="detail.php">
                             <input type="submit" value="購入明細" value="btn btn-meisai">
-                            <input type="hidden" name="order_id" value="<?php print(h($cart['order_id'])); ?>">
+                            <input type="hidden" name="order_id" value="<?php print(h($history['order_id'])); ?>">
                         </form>
                     </td>
                 </tr>     
