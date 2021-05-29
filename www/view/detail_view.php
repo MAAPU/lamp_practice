@@ -15,7 +15,6 @@
                     <th>注文番号</th>
                     <th>購入日時</th>
                     <th>合計金額</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +23,6 @@
                     <td><?php print(h($story['order_id']));?></td>
                     <td><?php print(h($story['create_datetime']));?></td>
                     <td><?php print(number_format(h($story['total'])));?>円</td>
-                    <td>
                 </tr>
         
                 <?php } ?>

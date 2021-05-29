@@ -111,7 +111,7 @@ function get_details($db,$order_id){
       name,
       order_details.price,
       amount,
-      (price * amount) AS subtotal
+      (order_details.price * amount) AS subtotal
     FROM
       order_details
     JOIN
@@ -132,7 +132,7 @@ function get_user_details($db,$order_id,$user_id){
       name,
       order_details.price,
       amount,
-      (price * amount) AS subtotal
+      (order_details.price * amount) AS subtotal
     FROM
       order_details
     JOIN
@@ -142,7 +142,7 @@ function get_user_details($db,$order_id,$user_id){
     JOIN
       order_history
     ON
-      order_details.user_id = order_history.user_id
+      order_details.order_id = order_history.order_id
     WHERE
       order_details.order_id = ?
     AND
