@@ -139,6 +139,7 @@ function h($str){
   return htmlspecialchars($str,ENT_QUOTES);
 }
 
+
 // トークンの生成
 function get_csrf_token(){
   // get_random_string()はユーザー定義関数。
