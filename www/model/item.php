@@ -44,10 +44,10 @@ function get_items($db, $is_open = false){
 }
 
 function get_ranks($db, $is_open = false) {
-  $sql = "
+  $sql = '
     SELECT
       name,
-      order_details.price,
+      items.price,
       image,
       SUM(amount)
     FROM
@@ -56,23 +56,22 @@ function get_ranks($db, $is_open = false) {
       order_details
     ON
       items.item_id = order_details.item_id
-    GROUP BY
-      name,
-      order_details.price,
-      image     
-    ORDER BY 
-      SUM(amount) desc limit 3
-      ";
+      ';
     if($is_open === true){
         $sql .= '
           WHERE status = 1
+          GROUP BY
+            order_details.item_id
+          ORDER BY 
+            SUM(amount) desc limit 3
         ';
       }
+      
   return fetch_all_query($db, $sql);
 }
 
 function get_open_ranks($db){
-  return get_ranks($db);
+  return get_ranks($db, true);
 }
 
 function get_all_items($db){
