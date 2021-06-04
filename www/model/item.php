@@ -43,6 +43,55 @@ function get_items($db, $is_open = false){
   return fetch_all_query($db, $sql);
 }
 
+function get_ranks($db, $is_open = false) {
+  $sql = '
+    SELECT
+      name,
+      items.price,
+      image,
+      SUM(amount)
+    FROM
+      items
+    JOIN
+      order_details
+    ON
+      items.item_id = order_details.item_id
+    GROUP BY
+      order_details.item_id
+    ORDER BY 
+      SUM(amount) desc limit 3
+    ';
+    
+  
+    if($is_open === true){
+        $sql = '
+          SELECT
+            name,
+            items.price,
+            image,
+            SUM(amount)
+          FROM
+            items
+          JOIN
+            order_details
+          ON
+            items.item_id = order_details.item_id
+          WHERE status = 1
+          GROUP BY
+            order_details.item_id
+          ORDER BY 
+            SUM(amount) desc limit 3
+        ';
+       
+      }
+      
+  return fetch_all_query($db, $sql);
+}
+
+function get_open_ranks($db){
+  return get_ranks($db, true);
+}
+
 function get_all_items($db){
   return get_items($db);
 }
